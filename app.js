@@ -71,7 +71,7 @@ function writeData() {
 
 
 function isBrainlyEmployee(email) {
-  return email.includes('@brainly.com' || 'mefju');
+  return email.includes('@brainly.com') || email.includes('mefju');
 }
 
 
