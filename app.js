@@ -143,6 +143,13 @@ function goToProfilePage() {
 
 
 
+// <div class="popup" id="popup-1-1">
+//     <h1 class="heading"><strong>EducationInspiration Innovation</strong></h1>
+//     <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+//     </div>
+//     <a href="#" class="close w-button" onclick="closePopup()">close</a>
+// </div>
+
 
 
 function renderEvent(doc, day, event_number) {
@@ -157,6 +164,14 @@ function renderEvent(doc, day, event_number) {
   let addMeToEvent = document.createElement('button');
   let removeMeFromEvent = document.createElement('button');
   let addToCalendar = document.createElement('button');
+
+  //popup stuff
+
+  let popupContainer = document.createElement('div');
+  let popupHeader = document.createElement('h1');
+  let popupDescription = document.createElement('div');
+  let popupClose = document.createElement('a');
+
 
   //eventContainer.setAttribute('class', doc.id);
 
@@ -195,6 +210,25 @@ function renderEvent(doc, day, event_number) {
   let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
   addToCalendar.setAttribute('href', googleCalendarLink);
 
+
+  //popup stuff
+
+  popupContainer.setAttribute('class', "popup popup-hidden");
+  popupContainer.setAttribute('id', "popup-"+day+"-"+event_number);
+  popupHeader.textContent = doc.data().title;
+  popupHeader.setAttribute('class', "heading");
+  popupDescription.textContent = doc.data().description;
+  popupClose.textContent = "Close";
+  popupClose.setAttribute('class', "button-primary close");
+  eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
+  popupClose.setAttribute('onClick', "closePopup("+day+","+event_number+")");
+
+
+
+  popupContainer.appendChild(popupHeader);
+  popupContainer.appendChild(popupDescription);
+  popupContainer.appendChild(popupClose);
+
   eventContainer.appendChild(eventTitle);
   eventContainer.appendChild(participants);
   eventContainer.appendChild(participantsMax);
@@ -202,6 +236,7 @@ function renderEvent(doc, day, event_number) {
   eventContainer.appendChild(addMeToEvent);
   eventContainer.appendChild(removeMeFromEvent);
   eventContainer.appendChild(addToCalendar);
+  eventContainer.appendChild(popupContainer);
 
   day1.appendChild(eventContainer);
 
@@ -296,8 +331,8 @@ function addEventToCalendar() {
 
 }
 
-function showPopup() {
-  var popup = document.getElementById("popup-1-1");
+function showPopup(day, event_number) {
+  var popup = document.getElementById("popup-"+day+"-"+event_number);
 
   popup.style.display = "block";
   popup.classList.remove("popup-hidden");
@@ -305,17 +340,26 @@ function showPopup() {
 }
 
 
-function closePopup() {
-  var popup = document.getElementById("popup-1-1");
+function closePopup(day, event_number) {
+  var popup = document.getElementById("popup-"+day+"-"+event_number);
+
+   // popup.style.display = "none";
+  popup.classList.remove("popup-visible");
+  popup.classList.add("popup-hidden");
 
   function onAnimationEnd() {
     popup.style.display = "none";
-
+    console.log("animation end");
     popup.removeEventListener("animationend", onAnimationEnd);
   }
-  popup.classList.remove("popup-visible");
-  popup.classList.add("popup-hidden");
+
   popup.addEventListener("animationend", onAnimationEnd);
+  popup.addEventListener("webkitAnimationEnd", onAnimationEnd);
+
+
+  // popup.className = "popup popup-hidden";
+
+
 }
 
 
