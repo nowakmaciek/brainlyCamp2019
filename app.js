@@ -86,11 +86,15 @@ function writeData() {
           var token = result.credential.accessToken;
           // The signed-in user info.
           var user = result.user;
-          //
 
-          //window.location.href = "./success_page.html";
-          goToProfilePage();
-
+          if (user.email.includes('@brainly.com')) {
+            //window.location.href = "./success_page.html";
+            goToProfilePage();
+            console.log('USER HAS PROPER EMAIL', user.email)
+          } else {
+            console.log('USER HAS INVALID EMAIL', user.email)
+            signOut();
+          }
         }).catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
@@ -107,8 +111,9 @@ function writeData() {
 
       function signOut(){
         firebase.auth().signOut().then(function() {
+          goToProfilePage();
         // Sign-out successful.
-        window.location.href = "./index.html";
+        // window.location.href = "./login-page.html";
         }).catch(function(error) {
           // An error happened.
         });
