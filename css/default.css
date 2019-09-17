@@ -3,6 +3,7 @@
   transition: all;
 }
 .popup-visible {
+
     -webkit-animation: showPopup;
             animation: showPopup;
     -webkit-animation-duration: 400ms;
@@ -15,6 +16,7 @@
 
 
 .popup-hidden {
+
     -webkit-animation: hidePopup;
             animation: hidePopup;
     -webkit-animation-duration: 400ms;

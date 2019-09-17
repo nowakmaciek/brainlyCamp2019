@@ -172,7 +172,6 @@ function renderEvent(doc, day, event_number) {
   let popupDescription = document.createElement('div');
   let popupClose = document.createElement('a');
 
-
   //eventContainer.setAttribute('class', doc.id);
 
   //add optional class if event is optional
@@ -208,19 +207,20 @@ function renderEvent(doc, day, event_number) {
 
   addToCalendar.textContent = "Add to calendar";
   let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
-  addToCalendar.setAttribute('href', googleCalendarLink);
+  // addToCalendar.setAttribute('href', googleCalendarLink);
+  addToCalendar.setAttribute('onclick', "showPopup("+day+","+event_number+")");
 
 
   //popup stuff
 
-  popupContainer.setAttribute('class', "popup popup-hidden");
+  popupContainer.setAttribute('class', "popup");
   popupContainer.setAttribute('id', "popup-"+day+"-"+event_number);
   popupHeader.textContent = doc.data().title;
   popupHeader.setAttribute('class', "heading");
   popupDescription.textContent = doc.data().description;
   popupClose.textContent = "Close";
   popupClose.setAttribute('class', "button-primary close");
-  eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
+  // eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
   popupClose.setAttribute('onClick', "closePopup("+day+","+event_number+")");
 
 
@@ -236,6 +236,8 @@ function renderEvent(doc, day, event_number) {
   eventContainer.appendChild(addMeToEvent);
   eventContainer.appendChild(removeMeFromEvent);
   eventContainer.appendChild(addToCalendar);
+
+
   eventContainer.appendChild(popupContainer);
 
   day1.appendChild(eventContainer);
@@ -335,21 +337,31 @@ function showPopup(day, event_number) {
   var popup = document.getElementById("popup-"+day+"-"+event_number);
 
   popup.style.display = "block";
+
   popup.classList.remove("popup-hidden");
   popup.classList.add("popup-visible");
+
+  function onAnimationEnd() {
+    popup.style.display = "block";
+    console.log("Popup opened");
+    popup.removeEventListener("animationend", onAnimationEnd);
+  }
+
+  popup.addEventListener("animationend", onAnimationEnd);
+  popup.addEventListener("webkitAnimationEnd", onAnimationEnd);
+  
 }
 
 
 function closePopup(day, event_number) {
   var popup = document.getElementById("popup-"+day+"-"+event_number);
 
-   // popup.style.display = "none";
   popup.classList.remove("popup-visible");
   popup.classList.add("popup-hidden");
 
   function onAnimationEnd() {
     popup.style.display = "none";
-    console.log("animation end");
+    console.log("Popup closed");
     popup.removeEventListener("animationend", onAnimationEnd);
   }
 
