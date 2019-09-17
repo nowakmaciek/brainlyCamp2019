@@ -26,44 +26,18 @@
     <link rel="manifest" href="./manifest.json">
 
 
- <script>
-
-
-
-      firebase.auth().onAuthStateChanged(function(user){
-    if (user){
-        console.info("User already signed in!");
-        console.info("User name: "+ user.displayName);
-        document.getElementById('user-info').innerHTML = 'Welcome ' + user.displayName + ', your email is: ' + user.email; 
-        goToProfilePage();
-    } else {
-        console.info("No user sign in.");
-        document.getElementById('user-info').innerHTML = 'no user signed in :(';
-    }
-
-});
-
- 
-
-
-</script>
-
-
-
-
-
 </head>
 <body>
   <div class="main">
     <div data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
       <div class="tapbar w-tab-menu">
-        <a data-w-tab="Tab 1" class="tapbar-tab w-inline-block w-tab-link w--current">
+        <a data-w-tab="Tab 1" class="tapbar-tab w-inline-block w-tab-link w--current" id="day-1-tab">
           <div>Day 1</div>
         </a>
-        <a data-w-tab="Tab 2" class="tapbar-tab w-inline-block w-tab-link">
+        <a data-w-tab="Tab 2" class="tapbar-tab w-inline-block w-tab-link" id="day-2-tab">
           <div>Day 2</div>
         </a>
-        <a data-w-tab="Tab 3" class="tapbar-tab w-inline-block w-tab-link">
+        <a data-w-tab="Tab 3" class="tapbar-tab w-inline-block w-tab-link" id="day-3-tab">
           <div>Day 3</div>
         </a>
         <a data-w-tab="Tab 4" class="tapbar-tab w-inline-block w-tab-link" id="profile-page-tab">

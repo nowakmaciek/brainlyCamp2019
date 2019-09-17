@@ -31,14 +31,18 @@ window.addEventListener('load', async e => {
     .catch(err => console.log('Failed to register ServiceWorker:', err));
   }
 
+  firebase.auth().onAuthStateChanged(function(user){
+    if (isBrainlyEmployee(user.email)) {
+      console.info("User name: "+ user.displayName);
+      document.getElementById('user-info').innerHTML = 'Welcome ' + user.displayName + ', your email is: ' + user.email;
 
-  createAgenda(1);
-  createAgenda(2);
-  createAgenda(3);
-
-
-
-});
+      createAgenda(1);
+      createAgenda(2);
+      createAgenda(3);
+    } else {
+      goToProfilePage();
+      document.getElementById('user-info').innerHTML = 'no user signed in :(';
+    }});
 
 
 
@@ -70,6 +74,9 @@ function writeData() {
 }
 
 
+function isBrainlyEmployee(email) {
+  return email.includes('@brainly.com');
+}
 
 
 //Login via Google
@@ -79,54 +86,61 @@ function writeData() {
 //     hd: "example1234.com"
 // });
 
-      function loginWithGoogle(){
+  function loginWithGoogle(){
 
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
 
-          if (user.email.includes('@brainly.com')) {
-            //window.location.href = "./success_page.html";
-            goToProfilePage();
-            console.log('USER HAS PROPER EMAIL', user.email)
-          } else {
-            console.log('USER HAS INVALID EMAIL', user.email)
-            signOut();
-          }
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-          console.error('login error', error);
-        }); 
-
+      if (isBrainlyEmployee(user.email)) {
+        //window.location.href = "./success_page.html";
+        goToDay1();
+        console.log('USER HAS PROPER EMAIL', user.email)
+      } else {
+        console.log('USER HAS INVALID EMAIL', user.email)
+        signOut();
       }
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+      console.error('login error', error);
+    }); 
 
-      function signOut(){
-        firebase.auth().signOut().then(function() {
-          goToProfilePage();
-        // Sign-out successful.
-        // window.location.href = "./login-page.html";
-        }).catch(function(error) {
-          // An error happened.
-        });
-      }
+  }
+
+  function signOut(){
+    firebase.auth().signOut().then(function() {
+      goToProfilePage();
+    // Sign-out successful.
+    // window.location.href = "./login-page.html";
+    }).catch(function(error) {
+      // An error happened.
+    });
+  }
 
 
 //Additional stuff
 
-function goToProfilePage(){
-      document.getElementById("profile-page-tab").click();
-      console.log("Go to profile clicked!");
+function goToPage(pageId) {
+  document.getElementById(pageId).click();
+}
 
-    }
+function goToDay1() {goToPage("day-1-tab")}
+function goToDay2() {goToPage("day-2-tab")}
+function goToDay3() {goToPage("day-3-tab")}
+
+function goToProfilePage(){
+  goToPage("profile-page-tab");
+  console.log("Go to profile clicked!");
+}
 
 
 
