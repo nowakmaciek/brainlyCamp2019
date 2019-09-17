@@ -59,7 +59,7 @@ window.addEventListener('load', async e => {
 
 
 function showMeData(){
-  console.log('Info from database: ' + data1 );
+  console.log('Info from database: ' + data1 ); 
 
 
 }
@@ -100,6 +100,7 @@ function writeData() {
           // The firebase.auth.AuthCredential type that was used.
           var credential = error.credential;
           // ...
+          console.error('login error', error);
         }); 
 
       }
