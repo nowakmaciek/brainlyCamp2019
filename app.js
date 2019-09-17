@@ -75,9 +75,9 @@ function writeData() {
 //Login via Google
  var provider = new firebase.auth.GoogleAuthProvider();
 
-provider.setCustomParameters({
-    hd: "example1234.com"
-});
+// provider.setCustomParameters({
+//     hd: "example1234.com"
+// });
 
       function loginWithGoogle(){
 
