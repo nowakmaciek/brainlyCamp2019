@@ -113,13 +113,7 @@ function loginWithGoogle() {
 }
 
 function signOut() {
-  firebase.auth().signOut().then(function() {
-    goToProfilePage();
-    // Sign-out successful.
-    // window.location.href = "./login-page.html";
-  }).catch(function(error) {
-    // An error happened.
-  });
+  firebase.auth().signOut();
 }
 
 
@@ -148,19 +142,6 @@ function goToProfilePage() {
 
 
 
-function deleteFromDatabase() {
-
-  const FieldValue = require('firebase-admin').firestore.FieldValue;
-  const day1DocRef = firestore.collection("camp-events-day-1").doc("event-1");
-  const input1 = document.querySelector("#input-test");
-
-  var textToDelete = input1.value;
-  console.log("I want to delete from database: " + textToDelete);
-
-  day1DocRef.update({
-    participants: firestore.FieldValue.arrayRemove("John Doe")
-  });
-}
 
 
 
@@ -227,10 +208,6 @@ function renderEvent(doc, day, event_number) {
 }
 
 
-//     db.collection("camp-events-day-" + x).doc("event-"+y)
-//         .onSnapshot(function(doc) {
-//            renderEvent(doc, 1, 1); 
-//         });
 
 
 
@@ -320,49 +297,25 @@ function addEventToCalendar() {
 }
 
 function showPopup() {
-  document.getElementById("popup-1-1").style.display = "block";
+  var popup = document.getElementById("popup-1-1");
 
-  document.getElementById("popup-1-1").animate([
-    // keyframes
-    {
-      transform: 'translateY(30px)',
-      opacity: 0
-    }, {
-      transform: 'translateY(0px)',
-      opacity: 1
-    }
-  ], {
-    // timing options
-    duration: 400,
-    easing: "ease-in-out"
-  });
-
+  popup.style.display = "block";
+  popup.classList.remove("popup-hidden");
+  popup.classList.add("popup-visible");
 }
 
 
 function closePopup() {
+  var popup = document.getElementById("popup-1-1");
 
+  function onAnimationEnd() {
+    popup.style.display = "none";
 
-
-  document.getElementById("popup-1-1").animate([
-    // keyframes
-    {
-      transform: 'translateY(0px)',
-      opacity: 1
-    }, {
-      transform: 'translateY(30px)',
-      opacity: 0
-    }
-  ], {
-    // timing options
-    duration: 400,
-    easing: "ease-in-out"
-  });
-
-  setTimeout(function() {
-    document.getElementById("popup-1-1").style.display = "none";
-  }, 400);
-
+    popup.removeEventListener("animationend", onAnimationEnd);
+  }
+  popup.classList.remove("popup-visible");
+  popup.classList.add("popup-hidden");
+  popup.addEventListener("animationend", onAnimationEnd);
 }
 
 
@@ -394,4 +347,28 @@ function closePopup() {
 //      eventsCount = snap.size // will return the collection size
 //      console.log("EventsCount: " + eventsCount);
 //   });
+
+
+
+// function deleteFromDatabase() {
+
+//   const FieldValue = require('firebase-admin').firestore.FieldValue;
+//   const day1DocRef = firestore.collection("camp-events-day-1").doc("event-1");
+//   const input1 = document.querySelector("#input-test");
+
+//   var textToDelete = input1.value;
+//   console.log("I want to delete from database: " + textToDelete);
+
+//   day1DocRef.update({
+//     participants: firestore.FieldValue.arrayRemove("John Doe")
+//   });
+// }
+
+
+
+
+//     db.collection("camp-events-day-" + x).doc("event-"+y)
+//         .onSnapshot(function(doc) {
+//            renderEvent(doc, 1, 1); 
+//         });
 
