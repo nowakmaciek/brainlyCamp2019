@@ -39,7 +39,7 @@ window.addEventListener('load', async e => {
       document.getElementById('user-info').innerHTML = 'no user signed in :(';
     }
   });
-}
+});
 
 
 //Firestore
