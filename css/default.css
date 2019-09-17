@@ -1,39 +1,79 @@
 .popup-visible {
-    animation: showPopup;
-    animation-duration: 400ms;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
+    -webkit-animation: showPopup;
+            animation: showPopup;
+    -webkit-animation-duration: 400ms;
+            animation-duration: 400ms;
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
 }
 
 
 .popup-hidden {
-    animation: hidePopup;
-    animation-duration: 400ms;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
+    -webkit-animation: hidePopup;
+            animation: hidePopup;
+    -webkit-animation-duration: 400ms;
+            animation-duration: 400ms;
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
 
 }
 
-@keyframes hidePopup {
+@-webkit-keyframes hidePopup {
     0% {
-      transform: translateY(0px);
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
       opacity: 1;
     }
 
     100% {
-      transform: translateY(30px);
+      -webkit-transform: translateY(30px);
+              transform: translateY(30px);
       opacity: 0;
+    }
+}
+
+@keyframes hidePopup {
+    0% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      opacity: 1;
+    }
+
+    100% {
+      -webkit-transform: translateY(30px);
+              transform: translateY(30px);
+      opacity: 0;
+    }
+}
+
+@-webkit-keyframes showPopup {
+    0% {
+      -webkit-transform: translateY(30px);
+              transform: translateY(30px);
+      opacity: 0;
+    }
+
+    100% {
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
+      opacity: 1;
     }
 }
 
 @keyframes showPopup {
     0% {
-      transform: translateY(30px);
+      -webkit-transform: translateY(30px);
+              transform: translateY(30px);
       opacity: 0;
     }
 
     100% {
-      transform: translateY(0px);
+      -webkit-transform: translateY(0px);
+              transform: translateY(0px);
       opacity: 1;
     }
 }
