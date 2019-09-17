@@ -1,0 +1,174 @@
+.tapbar-tab {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 25vw;
+  height: 60px;
+  padding-right: 16px;
+  padding-left: 16px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #d9f0ff;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tapbar-tab.w--current {
+  background-color: #b9e2fe;
+}
+
+.tapbar {
+  position: fixed;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  z-index: 99;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+.tabs {
+  position: relative;
+  height: 100vh;
+}
+
+.heading {
+  margin-top: 0px;
+  margin-bottom: 8px;
+  color: #000;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.navbar-content {
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-top: 16px;
+  padding-bottom: 100px;
+}
+
+.button-primary {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 50px;
+  padding-right: 24px;
+  padding-left: 24px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #000;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.event-box {
+  margin-top: 16px;
+  padding: 16px 24px;
+  background-color: #edf8ff;
+}
+
+.event-box.optional {
+  border: 1px solid #b9e2fe;
+  border-radius: 1px;
+  background-color: #fff;
+}
+
+.text-block {
+  font-size: 12px;
+  display: block;
+}
+
+.text-block.tickets {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.login-page-pattern {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.login-page-box {
+  position: absolute;
+  left: 0%;
+  top: auto;
+  right: 0%;
+  bottom: 0%;
+  width: 100vw;
+  height: 200px;
+  padding: 24px;
+  background-color: #fff;
+}
+
+.bit {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #000;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.lottie-animation {
+  width: 100vw;
+}
+
+.heading2 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+  opacity: 0.3;
+  color: #000;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.popup {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 999;
+  display: none;
+  overflow: scroll;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 24px 24px;
+  background-color: #d9f0ff;
+}
+
+.close {
+  position: fixed;
+  left: auto;
+  top: 16px;
+  right: 16px;
+  bottom: auto;
+}

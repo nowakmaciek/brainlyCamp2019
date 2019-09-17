@@ -1,0 +1,367 @@
+
+
+
+// Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAU2lVY3EQF1HNOAzMSk9E2pv6Q0ZmoC08",
+    authDomain: "campapp-e204e.firebaseapp.com",
+    databaseURL: "https://campapp-e204e.firebaseio.com",
+    projectId: "campapp-e204e",
+    storageBucket: "",
+    messagingSenderId: "496325356840",
+    appId: "1:496325356840:web:edb0806a57236784ba741d"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //Firestore
+  var firestore = firebase.firestore();
+  var db = firebase.firestore();
+ 
+
+//Service worker
+
+window.addEventListener('load', async e => {
+
+
+   if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./serviceWorker.js')
+    .then(reg => console.log('ServiceWorker registered, scope:', reg.scope))
+    .catch(err => console.log('Failed to register ServiceWorker:', err));
+  }
+
+
+  createAgenda(1);
+  createAgenda(2);
+  createAgenda(3);
+
+
+
+});
+
+
+
+//Firestore
+// var docRef = firestore.collection("camp-events").doc("dinner");
+// var data1 = docRef.get();
+
+// docRef.get().then(function(doc) {
+//     if (doc.exists) {
+//         console.log("Document data:", doc.data());
+//     } else {
+//         // doc.data() will be undefined in this case
+//         console.log("No such document!");
+//     }
+// }).catch(function(error) {
+//     console.log("Error getting document:", error);
+// });
+
+
+function showMeData(){
+  console.log('Info from database: ' + data1 );
+
+
+}
+
+function writeData() {
+
+    docRef.update({guests: 49});
+}
+
+
+
+
+//Login via Google
+ var provider = new firebase.auth.GoogleAuthProvider();
+
+provider.setCustomParameters({
+    hd: "example1234.com"
+});
+
+      function loginWithGoogle(){
+
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          //
+
+          //window.location.href = "./success_page.html";
+          goToProfilePage();
+
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+        }); 
+
+      }
+
+      function signOut(){
+        firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        window.location.href = "./index.html";
+        }).catch(function(error) {
+          // An error happened.
+        });
+      }
+
+
+//Additional stuff
+
+function goToProfilePage(){
+      document.getElementById("profile-page-tab").click();
+      console.log("Go to profile clicked!");
+
+    }
+
+
+
+function deleteFromDatabase(){
+
+  const FieldValue = require('firebase-admin').firestore.FieldValue;
+  const day1DocRef = firestore.collection("camp-events-day-1").doc("event-1");
+  const input1 = document.querySelector("#input-test");
+
+  var textToDelete = input1.value;
+  console.log("I want to delete from database: " + textToDelete);
+
+  day1DocRef.update({
+      participants: firestore.FieldValue.arrayRemove("John Doe")
+      });
+}
+
+
+
+
+function renderEvent(doc, day, event_number){
+
+  const day1 = document.querySelector('#day' + day + '-containter');
+
+  let eventContainer = document.createElement('div');
+  let eventTitle = document.createElement('h1');
+  let participants = document.createElement('span');
+  let participantsMax = document.createElement('span');
+  let eventDescription = document.createElement('span');
+  let addMeToEvent = document.createElement('button');
+  let removeMeFromEvent = document.createElement('button');
+  let addToCalendar = document.createElement('button');
+
+  //eventContainer.setAttribute('class', doc.id);
+
+  //add optional class if event is optional
+  if (doc.data().optional) {
+    eventContainer.setAttribute('class', "event-box optional");
+  }else{
+    eventContainer.setAttribute('class', "event-box");
+  }
+
+  eventTitle.textContent = doc.data().title;
+  eventTitle.setAttribute('class',"heading");
+
+  //make tickets values realtime updated
+  db.collection("camp-events-day-" + day).doc("event-"+event_number)
+        .onSnapshot(function(doc) {
+           participants.textContent = doc.get("participants").length;
+           participantsMax.textContent = " / " + doc.get("participants-max"); 
+        });
+  
+  participants.setAttribute('class',"heading");
+  participantsMax.setAttribute('class',"heading2");
+  
+  eventDescription.textContent = doc.data().description;
+  eventDescription.setAttribute('class',"text-block");
+
+  addMeToEvent.textContent = "I'm in!";
+  addMeToEvent.setAttribute('class',"button-primary");
+  addMeToEvent.setAttribute('onClick',"addMeToTheList("+day+","+event_number+")");
+
+  removeMeFromEvent.setAttribute('class',"button-primary");  
+  removeMeFromEvent.textContent = "I'm out!";
+  removeMeFromEvent.setAttribute('onClick',"removeMeFromTheList("+day+","+event_number+")");
+
+  addToCalendar.textContent = "Add to calendar";
+  let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
+  addToCalendar.setAttribute('href', googleCalendarLink);
+
+  eventContainer.appendChild(eventTitle);
+  eventContainer.appendChild(participants);
+  eventContainer.appendChild(participantsMax);
+  eventContainer.appendChild(eventDescription);
+  eventContainer.appendChild(addMeToEvent);
+  eventContainer.appendChild(removeMeFromEvent);
+  eventContainer.appendChild(addToCalendar);
+
+  day1.appendChild(eventContainer);
+
+}
+
+
+//     db.collection("camp-events-day-" + x).doc("event-"+y)
+//         .onSnapshot(function(doc) {
+//            renderEvent(doc, 1, 1); 
+//         });
+
+
+
+function createAgenda(day){
+
+  var i = 1;
+
+  db.collection("camp-events-day-" + day).get().then(collection => {
+        collection.forEach(function(doc) {
+          console.log("Rendering day:"+day+" / event:"+ i);
+          renderEvent(doc,day,i);
+          i++;
+      });
+  });
+
+}
+
+
+function addMeToTheList(day, eventNumber){
+
+  var userEmail;
+  var maxParticipantsCount;
+  var currentParticipantsCount = 0;
+  var eventRef = db.collection("camp-events-day-" + day).doc("event-" + eventNumber);
+
+  //checking if user logged in
+  firebase.auth().onAuthStateChanged(function(user){
+      if (user){
+          userEmail = user.email;
+      } else {
+
+      }});
+
+  //downloading participant list size. If size < max, then adding user email to list
+  eventRef.get().then(function(doc) {
+           //console.log("Document data:", doc.data());
+           //console.log(doc.get("participants").length);
+           currentParticipantsCount = doc.get("participants").length;
+           maxParticipantsCount = doc.get("participants-max");
+           console.log("Max participants count: " + maxParticipantsCount);
+           console.log("Current participants count: " + currentParticipantsCount);
+        
+          if (currentParticipantsCount < maxParticipantsCount){
+            db.collection("camp-events-day-"+day).doc("event-"+eventNumber).update({ participants:  firebase.firestore.FieldValue.arrayUnion(userEmail)});
+            console.log("Email added to list: " + userEmail);
+          }else{
+            console.log("Sorry, not enough tickets for this event");
+          }
+  });
+
+
+}
+
+
+function removeMeFromTheList(day, eventNumber){
+  console.log("I want to be removed from: " + day + "/"+eventNumber);
+
+  var userEmail;
+  var eventRef = db.collection("camp-events-day-" + day).doc("event-" + eventNumber);
+
+  //checking if user logged in
+  firebase.auth().onAuthStateChanged(function(user){
+      if (user){
+          userEmail = user.email;
+      } else {
+
+      }});
+
+  //delete user email from array
+  eventRef.get().then(function(doc) {
+            db.collection("camp-events-day-"+day).doc("event-"+eventNumber).update({ participants:  firebase.firestore.FieldValue.arrayRemove(userEmail)});
+            console.log("Deleted from the event: " + userEmail);
+  });
+
+}
+
+function addEventToCalendar(){
+
+  //to be implemented
+
+}
+
+function showPopup(){
+  document.getElementById("popup-1-1").style.display = "block";
+
+  document.getElementById("popup-1-1").animate([
+          // keyframes
+          { transform: 'translateY(30px)', opacity: 0 }, 
+          { transform: 'translateY(0px)' , opacity: 1 }
+        ], { 
+          // timing options
+          duration: 400,
+          easing: "ease-in-out"
+        });
+
+      }
+
+
+function closePopup(){
+
+  
+
+   document.getElementById("popup-1-1").animate([
+          // keyframes
+          { transform: 'translateY(0px)', opacity: 1 }, 
+          { transform: 'translateY(30px)' , opacity: 0 }
+        ], { 
+          // timing options
+          duration: 400,
+          easing: "ease-in-out"
+        });
+
+   setTimeout(function(){
+      document.getElementById("popup-1-1").style.display = "none";
+      }, 400);
+   
+      }
+
+
+
+
+
+
+
+    // db.collection("camp-events-day-1").doc("event-1")
+    //     .onSnapshot(function(doc) {          
+    //     });
+
+
+
+//real time update for each document in collection
+
+ //  db.collection("camp-events-day-1").onSnapshot(collection => {
+ //      collection.forEach(function(doc) {
+ //        // doc.data() is never undefined for query doc snapshots
+ //        // console.log(doc.id, " => ", doc.data());
+ //        console.log("Iteration : " + i);
+ //        i++;
+ //        renderEvent(doc,1,1);
+ //    });
+ // });
+
+
+
+
+// Number of documents in collection
+
+
+//   db.collection('camp-events-day-1').get().then(snap => {
+//      eventsCount = snap.size // will return the collection size
+//      console.log("EventsCount: " + eventsCount);
+//   });
+  
+
+
+
+
