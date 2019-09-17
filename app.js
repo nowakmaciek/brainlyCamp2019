@@ -27,7 +27,7 @@ window.addEventListener('load', async e => {
   }
 
   firebase.auth().onAuthStateChanged(function(user) {
-    if (isBrainlyEmployee(user.email)) {
+    if (user && isBrainlyEmployee(user.email)) {
       console.info("User name: " + user.displayName);
       document.getElementById('user-info').innerHTML = 'Welcome ' + user.displayName + ', your email is: ' + user.email;
 
@@ -90,7 +90,7 @@ function loginWithGoogle() {
     // The signed-in user info.
     var user = result.user;
 
-    if (isBrainlyEmployee(user.email)) {
+    if (isBrainlyEmployee(user && user.email)) {
       //window.location.href = "./success_page.html";
       goToDay1();
       console.log('USER HAS PROPER EMAIL', user.email)
