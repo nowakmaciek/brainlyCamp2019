@@ -1,3 +1,7 @@
+.popup {
+  -webkit-transition: all;
+  transition: all;
+}
 .popup-visible {
     -webkit-animation: showPopup;
             animation: showPopup;
