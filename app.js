@@ -29,7 +29,7 @@ window.addEventListener('load', async e => {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user && isBrainlyEmployee(user.email)) {
       console.info("User name: " + user.displayName);
-      document.getElementById('user-info').innerHTML = 'Welcome ' + user.displayName + ', your email is: ' + user.email;
+      document.getElementById('user-info').innerHTML = 'Hello, ' + user.displayName + ' (' + user.email +')';
 
       closePopup(0,0); //closing login popup
       createAgenda(1);
@@ -161,12 +161,15 @@ function renderEvent(doc, day, event_number) {
 
   let eventContainer = document.createElement('div');
   let eventTitle = document.createElement('h1');
+  let eventTime = document.createElement('span');
+  let eventPlace = document.createElement('span');
   let participants = document.createElement('span');
   let participantsMax = document.createElement('span');
   let eventDescription = document.createElement('span');
   let addMeToEvent = document.createElement('button');
   let removeMeFromEvent = document.createElement('button');
   let addToCalendar = document.createElement('button');
+  let learnMore = document.createElement('a');
 
   //popup stuff
 
@@ -177,28 +180,66 @@ function renderEvent(doc, day, event_number) {
 
   //eventContainer.setAttribute('class', doc.id);
 
-  //add optional class if event is optional
-  if (doc.data().optional) {
-    eventContainer.setAttribute('class', "event-box optional");
-  } else {
-    eventContainer.setAttribute('class', "event-box");
-  }
 
   eventTitle.textContent = doc.data().title;
   eventTitle.setAttribute('class', "heading");
 
-  //make tickets values realtime updated
-  db.collection("camp-events-day-" + day).doc("event-" + event_number)
+
+  //add optional class if event is optional
+  if (doc.data().optional) {
+
+      //make tickets values realtime updated
+    db.collection("camp-events-day-" + day).doc("event-" + event_number)
     .onSnapshot(function(doc) {
-      participants.textContent = doc.get("participants").length;
-      participantsMax.textContent = " / " + doc.get("participants-max");
+
+        var max = doc.get("participants-max");
+        var current = doc.get("participants").length;
+        var freeTickets = max-current;
+    
+      if (freeTickets == 0) {
+        console.log("No tickets!");
+        participants.textContent = "Sold out!";
+        addMeToEvent.classList.add("disable");
+      }else{
+        // participants.textContent = doc.get("participants").length;
+        // participantsMax.textContent = " / " + doc.get("participants-max");
+        addMeToEvent.classList.remove("disable");
+        participants.textContent = freeTickets + " places left";
+      }
+
     });
 
-  participants.setAttribute('class', "heading");
-  participantsMax.setAttribute('class', "heading2");
+    eventContainer.setAttribute('class', "event-box optional");
+    participants.setAttribute('class', "heading");
+    participantsMax.setAttribute('class', "heading2");
+
+  } else {
+    if (doc.data().img == 1) {
+      eventContainer.setAttribute('class', "event-box bckg-1");
+    } else if(doc.data().img == 2){
+      eventContainer.setAttribute('class', "event-box bckg-2");
+    } else if(doc.data().img == 3){
+      eventContainer.setAttribute('class', "event-box bckg-3");
+    } else if(doc.data().img == 4){
+      eventContainer.setAttribute('class', "event-box bckg-4");
+    } else {
+      eventContainer.setAttribute('class', "event-box");
+    }
+ }
+  
+
+  eventTime.textContent = doc.data().time;
+  eventTime.setAttribute('class', "text-block");
+
+  eventPlace.textContent = doc.data().place;
+  eventPlace.setAttribute('class', "text-block");
 
   eventDescription.textContent = doc.data().description;
   eventDescription.setAttribute('class', "text-block");
+
+  learnMore.textContent = "Learn more";
+  learnMore.setAttribute('class', "button-primary");
+  learnMore.setAttribute('onclick', "showPopup("+day+","+event_number+")");
 
   addMeToEvent.textContent = "I'm in!";
   addMeToEvent.setAttribute('class', "button-primary");
@@ -210,8 +251,7 @@ function renderEvent(doc, day, event_number) {
 
   addToCalendar.textContent = "Add to calendar";
   let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
-  // addToCalendar.setAttribute('href', googleCalendarLink);
-  addToCalendar.setAttribute('onclick', "showPopup("+day+","+event_number+")");
+  addToCalendar.setAttribute('href', googleCalendarLink);
 
 
   //popup stuff
@@ -226,19 +266,24 @@ function renderEvent(doc, day, event_number) {
   // eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
   popupClose.setAttribute('onClick', "closePopup("+day+","+event_number+")");
 
-
-
   popupContainer.appendChild(popupHeader);
   popupContainer.appendChild(popupDescription);
   popupContainer.appendChild(popupClose);
+  popupContainer.appendChild(addMeToEvent);
+  popupContainer.appendChild(removeMeFromEvent);
+  popupContainer.appendChild(addToCalendar);
+
+  //box event stuff
 
   eventContainer.appendChild(eventTitle);
+  eventContainer.appendChild(eventTime);
+  eventContainer.appendChild(eventPlace);
   eventContainer.appendChild(participants);
   eventContainer.appendChild(participantsMax);
-  eventContainer.appendChild(eventDescription);
-  eventContainer.appendChild(addMeToEvent);
-  eventContainer.appendChild(removeMeFromEvent);
-  eventContainer.appendChild(addToCalendar);
+  eventContainer.appendChild(learnMore);
+
+  //eventContainer.appendChild(eventDescription);
+  
 
 
   eventContainer.appendChild(popupContainer);
