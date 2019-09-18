@@ -44,8 +44,8 @@
       <div data-w-id="f7ef5708-159c-3991-0e68-a30f3261fcab" data-animation-type="lottie" data-path="https://uploads-ssl.webflow.com/5d74d01c42881eebd7f5e3a5/5d76846495ab0712613ba5f7_data.json" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-default-duration="4.004003840917587" data-duration="0" class="lottie-animation"></div>
     </div>
     <div class="login-page-box">
-      <h1 class="bit"><strong class="bold-text">BRAINLY CAMP 2019</strong></h1>
-      <h1 class="heading"><strong class="bold-text">October 1st - 3rd</strong></h1>
+      <h1 class="bit"><strong class="heading-bit">BRAINLY CAMP 2019</strong></h1>
+      <h1 class="heading"><strong class="heading">October 1st - 3rd</strong></h1>
       <a href="#" class="button-primary w-button" onclick="loginWithGoogle()">Login via google</a></div>
   </div>
 
@@ -54,32 +54,42 @@
     <div data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
       <div class="tapbar w-tab-menu">
         <a data-w-tab="Tab 1" class="tapbar-tab w-inline-block w-tab-link w--current" id="day-1-tab">
-          <div>Day 1</div>
+          <img src="images/day-1-toggle.svg" alt="">
         </a>
         <a data-w-tab="Tab 2" class="tapbar-tab w-inline-block w-tab-link" id="day-2-tab">
-          <div>Day 2</div>
+          <img src="images/day-2-toggle.svg" alt="">
         </a>
         <a data-w-tab="Tab 3" class="tapbar-tab w-inline-block w-tab-link" id="day-3-tab">
-          <div>Day 3</div>
+          <img src="images/day-3-toggle.svg" alt="">
         </a>
-        <a data-w-tab="Tab 4" class="tapbar-tab w-inline-block w-tab-link" id="profile-page-tab">
-          <div>Profile</div>
+        <a data-w-tab="Tab 4" id="profile-page-tab" class="tapbar-tab w-inline-block w-tab-link">
+          <img src="images/profile.svg" alt="">
         </a>
       </div>
       <div class="w-tab-content">
         <div data-w-tab="Tab 1" class="navbar-content w-tab-pane w--tab-active" id="day1-containter">
-          <h1>Day 1</h1>
+          <div class="dayheader">
+            <h1 class="heading align-right">Wednesday, <br>October 1nd</h1>
+          </div>
         </div>
         <div data-w-tab="Tab 2" class="navbar-content w-tab-pane" id="day2-containter">
-          <h1>Day 2</h1>
+          <div class="dayheader">
+            <h1 class="heading align-right">Wednesday, <br>October 2nd</h1>
+          </div>
         </div>
         <div data-w-tab="Tab 3" class="navbar-content w-tab-pane" id="day3-containter">
-          <h1>Day 3</h1>
+          <div class="dayheader">
+            <h1 class="heading align-right">Wednesday, <br>October 3nd</h1>
+          </div>
         </div>
         <div data-w-tab="Tab 4" class="navbar-content w-tab-pane">
           <h1>Profile</h1>
               <!-- <button onclick="loginWithGoogle()" class="button-primary">Click to login</button> -->
               <p id="user-info"></p>
+              
+              <div class="text-block">You have to reserve place for optional events where "X places left" are visible. For more questions reach Iga Kowalska</div>
+              <div class="event-box optional"> optional event</div>
+              <div class="event-box"> mandatory event</div>
               <button onclick="signOut()" class="button-primary">Logout!</button>
               
         </div>
