@@ -266,7 +266,7 @@ function renderEvent(doc, day, event_number) {
       eventBoxFooter.appendChild(learnMore);
 
     }else{
-      
+      console.log("no description");
     }
 
   
