@@ -157,7 +157,7 @@ function goToProfilePage() {
 
 function renderEvent(doc, day, event_number) {
 
-  const day1 = document.querySelector('#day' + day + '-containter');
+  const dayContainer = document.querySelector('#day' + day + '-containter');
 
   let eventContainer = document.createElement('div');
   let eventTitle = document.createElement('h1');
@@ -194,7 +194,7 @@ function renderEvent(doc, day, event_number) {
   if (doc.data().optional) {
 
       //make tickets values realtime updated
-    db.collection("camp-events-day-" + day).doc("event-" + event_number)
+    db.collection("camp-events-day-" + day).doc(doc.id)
     .onSnapshot(function(doc) {
 
         var max = doc.get("participants-max");
@@ -255,7 +255,7 @@ function renderEvent(doc, day, event_number) {
   eventPlacePopup.textContent = "Location: " + doc.data().place;
   eventPlacePopup.setAttribute('class', "text-block");
 
-  eventDescription.textContent = doc.data().description;
+  eventDescription.innerHTML = doc.data().description;
   eventDescription.setAttribute('class', "text-block");
 
   learnMore.textContent = "Learn more";
@@ -264,11 +264,11 @@ function renderEvent(doc, day, event_number) {
 
   addMeToEvent.textContent = "I'm in!";
   addMeToEvent.setAttribute('class', "button-primary");
-  addMeToEvent.setAttribute('onClick', "addMeToTheList(" + day + "," + event_number + ")");
+  addMeToEvent.setAttribute('onClick', "addMeToTheList(" + day + ",\""+doc.id+"\")");
 
   removeMeFromEvent.setAttribute('class', "button-primary");
   removeMeFromEvent.textContent = "I'm out!";
-  removeMeFromEvent.setAttribute('onClick', "removeMeFromTheList(" + day + "," + event_number + ")");
+  removeMeFromEvent.setAttribute('onClick', "removeMeFromTheList(" + day + ",\""+doc.id+"\")");
 
   addToCalendar.textContent = "Add to calendar";
   let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
@@ -281,10 +281,10 @@ function renderEvent(doc, day, event_number) {
   popupContainer.setAttribute('id', "popup-"+day+"-"+event_number);
   popupHeader.textContent = doc.data().title;
   popupHeader.setAttribute('class', "heading-bit");
-  eventDescriptionPopup.textContent = doc.data().description;
+  eventDescriptionPopup.innerHTML = doc.data().description;
   eventDescriptionPopup.setAttribute('class', "text-block description");
-  popupClose.textContent = "X";
-  popupClose.setAttribute('class', "button-primary close");
+  //popupClose.textContent = "X";
+  popupClose.setAttribute('class', "close");
   // eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
   popupClose.setAttribute('onClick', "closePopup("+day+","+event_number+")");
 
@@ -312,7 +312,7 @@ function renderEvent(doc, day, event_number) {
 
   eventContainer.appendChild(popupContainer);
 
-  day1.appendChild(eventContainer);
+  dayContainer.appendChild(eventContainer);
 
 }
 
@@ -335,12 +335,14 @@ function createAgenda(day) {
 }
 
 
-function addMeToTheList(day, eventNumber) {
+function addMeToTheList(day, docID) {
 
   var userEmail;
   var maxParticipantsCount;
   var currentParticipantsCount = 0;
-  var eventRef = db.collection("camp-events-day-" + day).doc("event-" + eventNumber);
+
+  var eventRef = db.collection("camp-events-day-" + day).doc(docID);
+  console.log("DocID : " + docID);
 
   //checking if user logged in
   firebase.auth().onAuthStateChanged(function(user) {
@@ -353,32 +355,34 @@ function addMeToTheList(day, eventNumber) {
 
   //downloading participant list size. If size < max, then adding user email to list
   eventRef.get().then(function(doc) {
-    //console.log("Document data:", doc.data());
-    //console.log(doc.get("participants").length);
+
     currentParticipantsCount = doc.get("participants").length;
     maxParticipantsCount = doc.get("participants-max");
+
+
     console.log("Max participants count: " + maxParticipantsCount);
     console.log("Current participants count: " + currentParticipantsCount);
 
     if (currentParticipantsCount < maxParticipantsCount) {
-      db.collection("camp-events-day-" + day).doc("event-" + eventNumber).update({
+      db.collection("camp-events-day-" + day).doc(docID).update({
         participants: firebase.firestore.FieldValue.arrayUnion(userEmail)
       });
       console.log("Email added to list: " + userEmail);
     } else {
       console.log("Sorry, not enough tickets for this event");
     }
-  });
+
+    });
 
 
 }
 
 
-function removeMeFromTheList(day, eventNumber) {
-  console.log("I want to be removed from: " + day + "/" + eventNumber);
+function removeMeFromTheList(day, docID) {
+  console.log("I want to be removed from: " + day + "/" + docID);
 
   var userEmail;
-  var eventRef = db.collection("camp-events-day-" + day).doc("event-" + eventNumber);
+  var eventRef = db.collection("camp-events-day-" + day).doc(docID);
 
   //checking if user logged in
   firebase.auth().onAuthStateChanged(function(user) {
@@ -391,7 +395,7 @@ function removeMeFromTheList(day, eventNumber) {
 
   //delete user email from array
   eventRef.get().then(function(doc) {
-    db.collection("camp-events-day-" + day).doc("event-" + eventNumber).update({
+    db.collection("camp-events-day-" + day).doc(docID).update({
       participants: firebase.firestore.FieldValue.arrayRemove(userEmail)
     });
     console.log("Deleted from the event: " + userEmail);

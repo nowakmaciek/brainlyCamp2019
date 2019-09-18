@@ -176,7 +176,7 @@
   overflow: scroll;
   width: 100vw;
   min-height: 100vh;
-  padding: 40px 24px 24px;
+  padding: 60px 24px 24px;
   background-color: #d9f0ff;
 }
 
@@ -186,6 +186,13 @@
   top: 16px;
   right: 16px;
   bottom: auto;
+  width: 40px;
+  height: 40px;
+  background-image: url('../images/close.svg');
+  background-position: 50% 50%;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
 }
 
 .loginpopup {
