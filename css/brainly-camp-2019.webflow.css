@@ -52,16 +52,15 @@
 .heading {
   margin-top: 0px;
   margin-bottom: 8px;
+  font-family: 'Mark simonson proxima nova', sans-serif;
   color: #000;
   font-size: 18px;
   line-height: 18px;
+  font-weight: 400;
 }
 
 .navbar-content {
-  padding-right: 16px;
-  padding-left: 16px;
-  padding-top: 16px;
-  padding-bottom: 100px;
+  padding: 16px 16px 100px;
 }
 
 .button-primary {
@@ -101,14 +100,30 @@
   background-color: #fff;
 }
 
+.event-box.bckg-1 {
+  background-image: url('../images/bckg-1.svg');
+  background-position: 100% 0%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .text-block {
-  font-size: 12px;
   display: block;
+  padding-bottom: 8px;
+  font-family: 'Mark simonson proxima nova', sans-serif;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 400;
 }
 
 .text-block.tickets {
-  margin-top: 8px;
+  display: inline-block;
+  padding-left: 0px;
   font-weight: 700;
+}
+
+.text-block.description {
+  margin-top: 24px;
 }
 
 .login-page-pattern {
@@ -171,4 +186,99 @@
   top: 16px;
   right: 16px;
   bottom: auto;
+}
+
+.loginpopup {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 9999999;
+  display: block;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.link {
+  display: inline-block;
+  padding-bottom: 8px;
+  font-family: 'Mark simonson proxima nova', sans-serif;
+  color: #1d9ff5;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link.tickets {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.event-box-footer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.heading-bit {
+  margin-top: 0px;
+  margin-bottom: 24px;
+  font-family: 'Mark simonson proxima nova', sans-serif;
+  color: #000;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Mark simonson proxima nova';
+  src: url('../fonts/Mark-Simonson---Proxima-Nova-Bold.otf') format('opentype'), url('../fonts/Mark-Simonson---Proxima-Nova-Extrabold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
 }
