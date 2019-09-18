@@ -189,78 +189,30 @@ function renderEvent(doc, day, event_number) {
   eventTitle.textContent = doc.data().title;
   eventTitle.setAttribute('class', "heading");
 
-
-  //add optional class if event is optional
-  if (doc.data().optional) {
-
-      //make tickets values realtime updated
-    db.collection("camp-events-day-" + day).doc(doc.id)
-    .onSnapshot(function(doc) {
-
-        var max = doc.get("participants-max");
-        var current = doc.get("participants").length;
-        var freeTickets = max-current;
-    
-      if (freeTickets == 0) {
-        console.log("No tickets!");
-        participants.textContent = "Sold out!";
-        participantsPopup.textContent = "Sold out!";
-
-        addMeToEvent.classList.add("disable");
-      }else{
-        // participants.textContent = doc.get("participants").length;
-        // participantsMax.textContent = " / " + doc.get("participants-max");
-        addMeToEvent.classList.remove("disable");
-        participants.textContent = freeTickets + " places left";
-        participantsPopup.textContent = freeTickets + " places left";
-      }
-
-    });
-
-    eventContainer.setAttribute('class', "event-box optional");
-    eventBoxFooter.setAttribute('class', "event-box-footer");
-    participants.setAttribute('class', "text-block tickets");
-    participantsPopup.setAttribute('class', "text-block tickets");
-    participantsMax.setAttribute('class', "text-block tickets");
-
-  } else {
-    if (doc.data().img == 1) {
-      eventContainer.setAttribute('class', "event-box bckg-1");
-    } else if(doc.data().img == 2){
-      eventContainer.setAttribute('class', "event-box bckg-2");
-    } else if(doc.data().img == 3){
-      eventContainer.setAttribute('class', "event-box bckg-3");
-    } else if(doc.data().img == 4){
-      eventContainer.setAttribute('class', "event-box bckg-4");
-    } else {
-      eventContainer.setAttribute('class', "event-box");
-    }
- }
-  
-
   eventTime.textContent = doc.data().time;
   eventTime.setAttribute('class', "text-block");
 
   eventTimePopup.textContent = "Date: " + doc.data().time;
   eventTimePopup.setAttribute('class', "text-block");
 
-  eventPlace.textContent = doc.data().place;
-  eventPlace.setAttribute('class', "text-block");
+  
 
   if(doc.data().trainer){
   trainerPopup.textContent = "Trainer: " + doc.data().trainer;
   trainerPopup.setAttribute('class', "text-block");
   }
 
-  eventPlacePopup.textContent = "Location: " + doc.data().place;
+
+  db.collection("camp-events-day-" + day).doc(doc.id)
+          .onSnapshot(function(doc) {
+              eventPlacePopup.textContent = "Location: " + doc.data().place;
+              eventPlace.textContent = doc.data().place;
+          });
+
+  
   eventPlacePopup.setAttribute('class', "text-block");
-
-  eventDescription.innerHTML = doc.data().description;
-  eventDescription.setAttribute('class', "text-block");
-
-  learnMore.textContent = "Learn more";
-  learnMore.setAttribute('class', "link");
-  learnMore.setAttribute('onclick', "showPopup("+day+","+event_number+")");
+  eventPlace.setAttribute('class', "text-block");
+  
 
   addMeToEvent.textContent = "I'm in!";
   addMeToEvent.setAttribute('class', "button-primary");
@@ -281,8 +233,7 @@ function renderEvent(doc, day, event_number) {
   popupContainer.setAttribute('id', "popup-"+day+"-"+event_number);
   popupHeader.textContent = doc.data().title;
   popupHeader.setAttribute('class', "heading-bit");
-  eventDescriptionPopup.innerHTML = doc.data().description;
-  eventDescriptionPopup.setAttribute('class', "text-block description");
+  
   //popupClose.textContent = "X";
   popupClose.setAttribute('class', "close");
   // eventContainer.setAttribute('onClick', "showPopup("+day+","+event_number+")");
@@ -293,15 +244,36 @@ function renderEvent(doc, day, event_number) {
   popupContainer.appendChild(eventPlacePopup);
   popupContainer.appendChild(trainerPopup);
   popupContainer.appendChild(participantsPopup);
-  popupContainer.appendChild(eventDescriptionPopup);
+  
   popupContainer.appendChild(popupClose);
-  popupContainer.appendChild(addMeToEvent);
-  popupContainer.appendChild(removeMeFromEvent);
-  popupContainer.appendChild(addToCalendar);
+
+
+    //if there is description attached, show 'learn more link' and description on popup
+    if (doc.data().description.length > 10){
+
+
+      eventDescription.innerHTML = doc.data().description;
+      eventDescription.setAttribute('class', "text-block");
+
+      learnMore.textContent = "Learn more";
+      learnMore.setAttribute('class', "link");
+      learnMore.setAttribute('onclick', "showPopup("+day+","+event_number+")");
+
+      eventDescriptionPopup.innerHTML = doc.data().description;
+      eventDescriptionPopup.setAttribute('class', "text-block description");
+
+      popupContainer.appendChild(eventDescriptionPopup);
+      eventBoxFooter.appendChild(learnMore);
+
+    }else{
+      
+    }
+
+  
 
   //box event stuff
 
-  eventBoxFooter.appendChild(learnMore);
+  
   eventBoxFooter.appendChild(participants);
 
   eventContainer.appendChild(eventTitle);
@@ -310,8 +282,70 @@ function renderEvent(doc, day, event_number) {
   eventContainer.appendChild(eventBoxFooter);
   //eventContainer.appendChild(participantsMax);
 
-  eventContainer.appendChild(popupContainer);
 
+
+
+  //add optional class if event is optional
+  if (doc.data().optional) {
+
+      //make tickets values realtime updated
+        db.collection("camp-events-day-" + day).doc(doc.id)
+        .onSnapshot(function(doc) {
+
+          var max = doc.get("participants-max");
+          var current = doc.get("participants").length;
+          var freeTickets = max-current;
+      
+          if (max != 0) {
+            if (freeTickets == 0) {
+
+            console.log("No tickets!");
+            participants.textContent = "Sold out!";
+            participantsPopup.textContent = "Sold out!";
+
+            addMeToEvent.classList.add("disable");
+
+            }else{
+              // addMeToEvent.classList.remove("disable");         
+              participants.textContent = freeTickets + " places left";
+              participantsPopup.textContent = freeTickets + " places left";
+            }
+
+            }else{
+
+            }
+
+        });
+
+        eventContainer.setAttribute('class', "event-box optional");
+        eventBoxFooter.setAttribute('class', "event-box-footer");
+        participants.setAttribute('class', "text-block tickets");
+        participantsPopup.setAttribute('class', "text-block tickets");
+        participantsMax.setAttribute('class', "text-block tickets");
+
+
+        popupContainer.appendChild(addMeToEvent);
+        popupContainer.appendChild(removeMeFromEvent);
+        popupContainer.appendChild(addToCalendar);
+      
+  } else {
+    if (doc.data().img == 1) {
+      eventContainer.setAttribute('class', "event-box bckg-1");
+    } else if(doc.data().img == 2){
+      eventContainer.setAttribute('class', "event-box bckg-2");
+    } else if(doc.data().img == 3){
+      eventContainer.setAttribute('class', "event-box bckg-3");
+    } else if(doc.data().img == 4){
+      eventContainer.setAttribute('class', "event-box bckg-4");
+    } else {
+      eventContainer.setAttribute('class', "event-box");
+    }
+ }
+
+
+
+
+  eventContainer.appendChild(popupContainer);
   dayContainer.appendChild(eventContainer);
 
 }
