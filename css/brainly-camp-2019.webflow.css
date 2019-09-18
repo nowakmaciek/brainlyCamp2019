@@ -58,10 +58,7 @@
 }
 
 .navbar-content {
-  padding-right: 16px;
-  padding-left: 16px;
-  padding-top: 16px;
-  padding-bottom: 100px;
+  padding: 16px 16px 100px;
 }
 
 .button-primary {
@@ -102,8 +99,8 @@
 }
 
 .text-block {
-  font-size: 12px;
   display: block;
+  font-size: 12px;
 }
 
 .text-block.tickets {
@@ -171,4 +168,16 @@
   top: 16px;
   right: 16px;
   bottom: auto;
+}
+
+.loginpopup {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  z-index: 9999999;
+  display: block;
+  overflow: hidden;
+  background-color: #fff;
 }

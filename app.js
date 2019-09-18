@@ -31,11 +31,14 @@ window.addEventListener('load', async e => {
       console.info("User name: " + user.displayName);
       document.getElementById('user-info').innerHTML = 'Welcome ' + user.displayName + ', your email is: ' + user.email;
 
+      closePopup(0,0); //closing login popup
       createAgenda(1);
       createAgenda(2);
       createAgenda(3);
     } else {
       goToProfilePage();
+      showPopup(0,0);
+      console.log("User not logged in. Loging Popup opened");
       document.getElementById('user-info').innerHTML = 'no user signed in :(';
     }
   });
