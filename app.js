@@ -338,8 +338,8 @@ function renderEvent(doc, day, event_number) {
 
             eventContainer.setAttribute('class', "event-box optional confirmed");
             // eventContainer.classList.remove("popup-visible");
+            participants.textContent = "You're in!";
 
-            
 
           }else{
 
