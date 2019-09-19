@@ -117,6 +117,13 @@
   opacity: 0.2;
 }
 
+.turnoff{
+  display: none;
+}
+
+.turnon{
+  display: block;
+}
 
 .event-container {
   padding-top: 20px;
