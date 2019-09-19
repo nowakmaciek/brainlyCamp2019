@@ -206,7 +206,7 @@ function renderEvent(doc, day, event_number) {
   eventTime.textContent = doc.data().time;
   eventTime.setAttribute('class', "text-block");
 
-  eventTimePopup.textContent = "Date: " + doc.data().time;
+  eventTimePopup.textContent = "Time: " + doc.data().time;
   eventTimePopup.setAttribute('class', "text-block");
 
   
