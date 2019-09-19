@@ -159,6 +159,20 @@ function renderEvent(doc, day, event_number) {
 
   const dayContainer = document.querySelector('#day' + day + '-containter');
 
+
+
+
+
+    //checking if user logged in
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      userEmail = user.email;
+    } else {
+
+    }
+  });
+
+
   let eventContainer = document.createElement('div');
   let eventTitle = document.createElement('h1');
   let eventTime = document.createElement('span');
@@ -215,12 +229,12 @@ function renderEvent(doc, day, event_number) {
   
 
   addMeToEvent.textContent = "I'm in!";
-  addMeToEvent.setAttribute('class', "button-primary");
+  
   addMeToEvent.setAttribute('onClick', "addMeToTheList(" + day + ",\""+doc.id+"\")");
 
-  removeMeFromEvent.setAttribute('class', "button-primary");
   removeMeFromEvent.textContent = "I'm out!";
   removeMeFromEvent.setAttribute('onClick', "removeMeFromTheList(" + day + ",\""+doc.id+"\")");
+
 
   addToCalendar.textContent = "Add to calendar";
   let googleCalendarLink = "http://www.google.com/calendar/event?action=TEMPLATE&dates=20190911T010000Z%2F20190912T010000Z&text=Title&location=Location&details=Description";
@@ -315,6 +329,18 @@ function renderEvent(doc, day, event_number) {
 
             }
 
+
+          if(doc.get("participants").includes(userEmail)) {
+
+            addMeToEvent.setAttribute('class', "button-primary turnoff");
+            removeMeFromEvent.setAttribute('class', "button-secondary turnon");
+
+          }else{
+            addMeToEvent.setAttribute('class', "button-primary turnon");
+            removeMeFromEvent.setAttribute('class', "button-secondary turnoff");
+          }
+
+
         });
 
         eventContainer.setAttribute('class', "event-box optional");
@@ -326,7 +352,7 @@ function renderEvent(doc, day, event_number) {
 
         popupContainer.appendChild(addMeToEvent);
         popupContainer.appendChild(removeMeFromEvent);
-        popupContainer.appendChild(addToCalendar);
+        //popupContainer.appendChild(addToCalendar);
       
   } else {
     if (doc.data().img == 1) {
