@@ -23,9 +23,13 @@
 window.addEventListener('load', async e => {
 
 loginWithGoogle();
-showMeParticipants(1);
-showMeParticipants(2);
-showMeParticipants(3);
+// showMeParticipants(1);
+// showMeParticipants(2);
+// showMeParticipants(3);
+
+createAgenda(1);
+createAgenda(2);
+createAgenda(3);
 
 
 });
@@ -34,9 +38,6 @@ showMeParticipants(3);
 //Login via Google
  var provider = new firebase.auth.GoogleAuthProvider();
 
-provider.setCustomParameters({
-    hd: "example1234.com"
-});
 
 function loginWithGoogle(){
 
@@ -77,36 +78,68 @@ function signOut(){
 //real time update for each document in collection
 
 
-function showMeParticipants(day){
 
-  db.collection("camp-events-day-"+day).onSnapshot(collection => {
-      collection.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
+
+
+function renderEvent(doc, day, event_number) {
+
+        const fullDay = document.querySelector('#admin-event-list-' + day);
+        let eventContainer = document.createElement('div');
+        eventContainer.setAttribute('class', "event-container");
+        let eventTitle = document.createElement('div');
+        eventTitle.setAttribute('class', "event-title");
+        let status = document.createElement('div');
+        let participantsList = document.createElement('div');
+        participantsList.setAttribute('class', "participants-list");
+
         
 
-        const fullDay = document.querySelector('admin-event-list');
+          db.collection("camp-events-day-" + day).doc(doc.id)
+            .onSnapshot(function(doc) {
 
-        let eventContainer = document.createElement('div');
-        let eventDescription = document.createElement('span');
-        let eventTitle = document.createElement('h1');
-        let participants = document.createElement('span');
-        let participantsMax = document.createElement('span');
+              var max = doc.get("participants-max");
+              var current = doc.get("participants").length;
+              var left = max-current;
+              var participantsNewLine;
 
-        eventContainer.setAttribute('class', "admin-day");
+              eventTitle.innerHTML = doc.get("title"); 
+              status.innerHTML = "Capacity: " + max + " / Current: " + current + " / Left: " + left;
 
-        eventDescription.textContent = doc.data().title;
-        console.log(eventDescription);
+              var currentParticipantsList = doc.get("participants");
+              participantsNewLine = currentParticipantsList.toString().replace(/,/g, '<br>');
 
-        eventContainer.appendChild(eventDescription);
+              participantsList.innerHTML = participantsNewLine;
+
+              eventContainer.appendChild(eventTitle);
+        eventContainer.appendChild(status);
+        eventContainer.appendChild(participantsList);
+          });
+
+        
         fullDay.appendChild(eventContainer);
 
-
-
-    });
- });
 }
 
 
+
+function createAgenda(day) {
+
+  var i = 1;
+
+  db.collection("camp-events-day-" + day).get().then(collection => {
+    collection.forEach(function(doc) {
+      console.log("Rendering day:" + day + " / event:" + i);
+
+      var max = doc.get("participants-max");
+
+      if (max>0) {
+        renderEvent(doc, day, i);
+      }
+
+      i++;
+    });
+  });
+
+}
 
 

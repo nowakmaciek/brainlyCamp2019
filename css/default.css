@@ -117,3 +117,20 @@
   opacity: 0.2;
 }
 
+
+.event-container {
+  padding-top: 20px;
+}
+
+.event-title {
+  font-weight: 900;
+}
+
+.main-admin {
+  padding: 120px;
+}
+
+.participants-list {
+  color: #FBBE2E;
+  font-weight: 900;
+}
