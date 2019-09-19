@@ -334,10 +334,19 @@ function renderEvent(doc, day, event_number) {
 
             addMeToEvent.setAttribute('class', "button-primary turnoff");
             removeMeFromEvent.setAttribute('class', "button-secondary turnon");
+            //event box -> confirmed
+
+            eventContainer.setAttribute('class', "event-box optional confirmed");
+            // eventContainer.classList.remove("popup-visible");
+
+            
 
           }else{
+
+
             addMeToEvent.setAttribute('class', "button-primary turnon");
             removeMeFromEvent.setAttribute('class', "button-secondary turnoff");
+            eventContainer.setAttribute('class', "event-box optional");
           }
 
 

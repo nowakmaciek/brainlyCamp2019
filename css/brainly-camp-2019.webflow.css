@@ -60,7 +60,7 @@
   color: #000;
   font-size: 18px;
   line-height: 18px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .heading.align-right {
@@ -113,6 +113,11 @@
   background-color: #fff;
 }
 
+.event-box.optional.confirmed {
+  border-width: 4px;
+  border-color: #000;
+}
+
 .event-box.bckg-1 {
   background-image: url('../images/bckg-1.svg');
   background-position: 100% 0%;
@@ -151,6 +156,7 @@
   top: auto;
   right: 0%;
   bottom: 0%;
+  display: block;
   width: 100vw;
   height: 200px;
   padding: 24px;
