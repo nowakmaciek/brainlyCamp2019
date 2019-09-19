@@ -27,9 +27,7 @@ loginWithGoogle();
 // showMeParticipants(2);
 // showMeParticipants(3);
 
-createAgenda(1);
-createAgenda(2);
-createAgenda(3);
+
 
 
 });
@@ -39,41 +37,54 @@ createAgenda(3);
  var provider = new firebase.auth.GoogleAuthProvider();
 
 
-function loginWithGoogle(){
+function loginWithGoogle() {
 
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          //
+  firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = result.credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
 
-          //window.location.href = "./success_page.html";
-          console.log("I am logged in!");
+    if (isBrainlyEmployee(user && user.email)) {
 
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-        }); 
+     
+      createAgenda(1);
+      createAgenda(2);
+      createAgenda(3);
 
-      }
+      console.log('USER HAS PROPER EMAIL', user.email)
+    } else {
+      console.log('USER HAS INVALID EMAIL', user.email)
+      signOut();
+    }
+  }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+    console.error('login error', error);
+  });
 
+}
 
 function signOut(){
         firebase.auth().signOut().then(function() {
         // Sign-out successful.
-        window.location.href = "./index.html";
+        
         }).catch(function(error) {
           // An error happened.
         });
       }
 
+
+
+function isBrainlyEmployee(email){
+  return email.includes('iga.kowalska@brainly.com') || email.includes('olga.wysopal@brainly.com') || email.includes('maciej.nowak@brainly.com');
+}
 
 //real time update for each document in collection
 
