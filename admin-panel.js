@@ -99,6 +99,8 @@ function renderEvent(doc, day, event_number) {
         eventContainer.setAttribute('class', "event-container");
         let eventTitle = document.createElement('div');
         eventTitle.setAttribute('class', "event-title");
+        let eventTime = document.createElement('div');
+        eventTime.setAttribute('class', "event-title");
         let status = document.createElement('div');
         let participantsList = document.createElement('div');
         participantsList.setAttribute('class', "participants-list");
@@ -113,8 +115,9 @@ function renderEvent(doc, day, event_number) {
               var left = max-current;
               var participantsNewLine;
 
-              eventTitle.innerHTML = doc.get("title"); 
-              status.innerHTML = "Capacity: " + max + " / Current: " + current + " / Left: " + left;
+              eventTitle.innerHTML = doc.get("title");
+              eventTime.innerHTML = doc.get("time");
+              status.innerHTML = "Capacity: <strong>" + max + "</strong> / Current: <strong>" + current + "</strong> / Left: <strong>" + left +"</strong>";
 
               var currentParticipantsList = doc.get("participants");
               participantsNewLine = currentParticipantsList.toString().replace(/,/g, '<br>');
@@ -122,8 +125,9 @@ function renderEvent(doc, day, event_number) {
               participantsList.innerHTML = participantsNewLine;
 
               eventContainer.appendChild(eventTitle);
-        eventContainer.appendChild(status);
-        eventContainer.appendChild(participantsList);
+              eventContainer.appendChild(eventTime);
+              eventContainer.appendChild(status);
+              eventContainer.appendChild(participantsList);
           });
 
         
