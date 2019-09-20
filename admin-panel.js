@@ -83,7 +83,7 @@ function signOut(){
 
 
 function isBrainlyEmployee(email){
-  return email.includes('iga.kowalska@brainly.com') || email.includes('olga.wysopal@brainly.com') || email.includes('maciej.nowak@brainly.com');
+  return email.includes('iga.kowalska@brainly.com') || email.includes('olga.wysopal@brainly.com') || email.includes('maciej.nowak@brainly.com') || email.includes('ola.wisniewska@brainly.com');
 }
 
 //real time update for each document in collection
