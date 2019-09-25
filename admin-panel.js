@@ -97,6 +97,7 @@ function renderEvent(doc, day, event_number) {
         const fullDay = document.querySelector('#admin-event-list-' + day);
         let eventContainer = document.createElement('div');
         eventContainer.setAttribute('class', "event-container");
+
         let eventTitle = document.createElement('div');
         eventTitle.setAttribute('class', "event-title");
         let eventTime = document.createElement('div');
@@ -104,6 +105,27 @@ function renderEvent(doc, day, event_number) {
         let status = document.createElement('div');
         let participantsList = document.createElement('div');
         participantsList.setAttribute('class', "participants-list");
+
+        //admin stuff
+        let adminFooter = document.createElement('div');
+        adminFooter.setAttribute('class', "admin-footer");
+        let emailInput = document.createElement('input');
+        emailInput.setAttribute('class', "admin-email-input");
+        emailInput.setAttribute('id', day + "-" + event_number);
+        emailInput.setAttribute('placeholder', "Type email and click relevant button");
+        let addEmailButton = document.createElement('button');
+        addEmailButton.innerHTML = "+ Add user";
+        addEmailButton.setAttribute('class', "admin-button");
+        addEmailButton.setAttribute('onClick', "addToTheList("+day+",\""+doc.id+"\","+event_number+")");
+
+        let deleteEmailButton = document.createElement('button');
+        deleteEmailButton.innerHTML = "- Delete user";
+        deleteEmailButton.setAttribute('class', "admin-button");
+        deleteEmailButton.setAttribute('onClick', "removeFromTheList("+day+",\""+doc.id+"\","+event_number+")");
+
+        adminFooter.appendChild(emailInput);
+        adminFooter.appendChild(addEmailButton);
+        adminFooter.appendChild(deleteEmailButton);
 
         
 
@@ -128,6 +150,7 @@ function renderEvent(doc, day, event_number) {
               eventContainer.appendChild(eventTime);
               eventContainer.appendChild(status);
               eventContainer.appendChild(participantsList);
+              eventContainer.appendChild(adminFooter);
           });
 
         
@@ -157,4 +180,50 @@ function createAgenda(day) {
 
 }
 
+
+function removeFromTheList(day, docID, event_number) {
+  
+  var eventRef = db.collection("camp-events-day-" + day).doc(docID);
+  var input = document.getElementById(day + "-" + event_number);
+  var email = input.value;
+
+  
+
+  if (email != "") {
+    console.log("I want to remove /" + email + "/ typed in input from: " + day + "/" + docID);
+
+    // delete user email from array
+    eventRef.get().then(function(doc) {
+      db.collection("camp-events-day-" + day).doc(docID).update({
+        participants: firebase.firestore.FieldValue.arrayRemove(email)
+      });
+      console.log("Deleted from the event: " + email);
+    });
+  }else{
+    console.log("you have to type something input")
+  }
+}
+
+function addToTheList(day, docID, event_number) {
+  
+  var eventRef = db.collection("camp-events-day-" + day).doc(docID);
+  var input = document.getElementById(day + "-" + event_number);
+  var email = input.value;
+
+  
+  if (email != "") {
+    console.log("I want to add /" + email + "/ typed in input from: " + day + "/" + docID);
+
+    //delete user email from array
+    eventRef.get().then(function(doc) {
+      db.collection("camp-events-day-" + day).doc(docID).update({
+        participants: firebase.firestore.FieldValue.arrayUnion(email)
+      });
+      console.log("Added to the event: " + email);
+    });
+  }else{
+    console.log("you have to type something input")
+  }
+
+}
 
