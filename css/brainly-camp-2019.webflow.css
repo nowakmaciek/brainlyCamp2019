@@ -99,6 +99,11 @@
   font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
+
+  /*stickyness*/
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
 }
 
 .event-box {
@@ -295,12 +300,17 @@
   align-items: center;
   border: 2px solid #000;
   border-radius: 100px;
-  background-color: transparent;
+  background-color: #d9f0ff;
   font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   color: #000;
   font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
+
+  /*stickyness*/
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
 }
 
 @font-face {

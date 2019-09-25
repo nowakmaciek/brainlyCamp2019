@@ -359,8 +359,8 @@ function renderEvent(doc, day, event_number) {
         participantsMax.setAttribute('class', "text-block tickets");
 
 
-        popupContainer.appendChild(addMeToEvent);
-        popupContainer.appendChild(removeMeFromEvent);
+        // popupContainer.appendChild(addMeToEvent);
+        // popupContainer.appendChild(removeMeFromEvent);
         //popupContainer.appendChild(addToCalendar);
       
   } else {
