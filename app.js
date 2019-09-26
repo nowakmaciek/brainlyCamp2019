@@ -219,8 +219,8 @@ function renderEvent(doc, day, event_number) {
 
   db.collection("camp-events-day-" + day).doc(doc.id)
           .onSnapshot(function(doc) {
-              eventPlacePopup.textContent = "Location: " + doc.data().place;
-              eventPlace.textContent = doc.data().place;
+              eventPlacePopup.innerHTML = "Location: " + doc.data().place;
+              eventPlace.innerHTML = doc.data().place;
           });
 
   
@@ -359,10 +359,16 @@ function renderEvent(doc, day, event_number) {
         participantsMax.setAttribute('class', "text-block tickets");
 
 
-        // popupContainer.appendChild(addMeToEvent);
-        // popupContainer.appendChild(removeMeFromEvent);
-        //popupContainer.appendChild(addToCalendar);
-      
+        var maxmax = doc.get("participants-max");
+        if(maxmax > 100){
+
+          console.log("MAX MORE THAN 100: "+ maxmax);
+          popupContainer.appendChild(addMeToEvent);
+          popupContainer.appendChild(removeMeFromEvent);
+          //popupContainer.appendChild(addToCalendar);
+          
+        }
+
   } else {
     if (doc.data().img == 1) {
       eventContainer.setAttribute('class', "event-box bckg-1");
