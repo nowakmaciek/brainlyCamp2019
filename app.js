@@ -219,8 +219,15 @@ function renderEvent(doc, day, event_number) {
 
   db.collection("camp-events-day-" + day).doc(doc.id)
           .onSnapshot(function(doc) {
+              if (doc.data().placelink.length > 10) {
+              eventPlacePopup.innerHTML = "<a href=\"" + doc.data().placelink + "\" class=\"link2\" target=\"_blank\">"+ doc.data().place+"</a>";
+              eventPlace.innerHTML = "<a href=\"" + doc.data().placelink + "\" class=\"link2\" target=\"_blank\">"+ doc.data().place+"</a>";
+            } else{
               eventPlacePopup.innerHTML = "Location: " + doc.data().place;
-              eventPlace.innerHTML = doc.data().place;
+              eventPlace.innerHTML = doc.data().place;            
+            }
+          
+
           });
 
   

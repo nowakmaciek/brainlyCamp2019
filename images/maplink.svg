@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="12px" viewBox="0 0 10 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>maplink</title>
+    <desc>Created with Sketch.</desc>
+    <g id="UI-challenges-feed-(third-iteration)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="desktop---subject-challenges-expanded-copy" transform="translate(-1167.000000, -2339.000000)" fill="#40BD7E">
+            <path d="M1172,2339 C1174.76142,2339 1177,2341.21263 1177,2343.94204 C1177,2345.76165 1175.33333,2348.1143 1172,2351 C1168.66667,2348.1143 1167,2345.76165 1167,2343.94204 C1167,2341.21263 1169.23858,2339 1172,2339 Z M1172,2342 C1170.89543,2342 1170,2342.89543 1170,2344 C1170,2345.10457 1170.89543,2346 1172,2346 C1173.10457,2346 1174,2345.10457 1174,2344 C1174,2342.89543 1173.10457,2342 1172,2342 Z" id="maplink"></path>
+        </g>
+    </g>
+</svg>

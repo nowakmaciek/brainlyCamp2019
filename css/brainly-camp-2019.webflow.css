@@ -241,6 +241,22 @@
   text-decoration: none;
 }
 
+.link2 {
+  display: inline-block;
+  padding-bottom: 8px;
+  font-family: 'Mark simonson proxima nova', sans-serif;
+  color: #40BD7E;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  padding-right: 16px;
+  background: url('../images/maplink.svg') no-repeat right 2px;
+}
+
+
+
+
+
 .link.tickets {
   margin-top: 8px;
   font-weight: 700;
