@@ -189,3 +189,13 @@
   background-color: #EBF2F7;
 }
 
+.flexme {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+}
+
